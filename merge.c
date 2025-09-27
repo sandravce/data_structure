@@ -78,7 +78,7 @@ int main()
     display_array(a, n);
 
     // Array 2 input
-    printf("Enter how many elements you need to store to array 2:\n");
+    printf("Enter how many elements you need to store to array 2:");
     scanf("%d", &b);
 
     if(b > 50)
@@ -91,12 +91,6 @@ int main()
     for(i = 1; i <= b; i++)
     {
         scanf("%d", &a2[i]);
-    }
-
-    printf("The array is:\n"); // To print the array 2
-    for(j = 1; j <= b; j++)
-    {
-        printf("%d\n", a2[j]);
     }
 
     // Sort array 2 separately
@@ -116,4 +110,5 @@ int main()
 
     return 0;
 }
+
 
