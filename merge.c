@@ -1,114 +1,99 @@
 #include <stdio.h>
 
-void display_array(int arr[], int size) 
-{
-    for(int i = 1; i <= size; i++) 
-    {
-        printf("%d\n", arr[i]);
-    }   
-}
+#define MAX_SIZE 20   // maximum allowed size
 
-// Bubble sort function (1-based indexing)
-void bubble_sort(int arr[], int size) 
-{
-    for(int i = 1; i <= size - 1; i++) 
-    {
-        for(int j = 1; j <= size - i; j++) 
-        {
-            if(arr[j] > arr[j + 1]) 
-            {
-                int temp = arr[j];
-                arr[j] = arr[j + 1];
-                arr[j + 1] = temp;
+// Function to sort an array using Selection Sort
+void sort_array(int arr[], int n) {
+    int i, j, minIndex, temp;
+    for (i = 0; i < n - 1; i++) {
+        minIndex = i;
+        for (j = i + 1; j < n; j++) {
+            if (arr[j] < arr[minIndex]) {
+                minIndex = j;
             }
         }
+        // Swap
+        temp = arr[i];
+        arr[i] = arr[minIndex];
+        arr[minIndex] = temp;
     }
 }
 
-// Merge two sorted arrays a[1..n] and a2[1..m] into merged[]
-void merge_arrays(int a[], int n, int a2[], int m, int merged[]) 
-{
-    int i = 1, j = 1, k = 1;
+// Function to merge two sorted arrays
+void merge_arrays(int arr1[], int n1, int arr2[], int n2, int merged[]) {
+    int i = 0, j = 0, k = 0;
 
-    while(i <= n && j <= m) 
-    {
-        if(a[i] < a2[j]) 
-        {
-            merged[k++] = a[i++];
-        } 
-        else 
-        {
-            merged[k++] = a2[j++];
+    while (i < n1 && j < n2) {
+        if (arr1[i] < arr2[j]) {
+            merged[k++] = arr1[i++];
+        } else {
+            merged[k++] = arr2[j++];
         }
     }
-
-    while(i <= n) 
-    {
-        merged[k++] = a[i++];
+    while (i < n1) {
+        merged[k++] = arr1[i++];
     }
-
-    while(j <= m) 
-    {
-        merged[k++] = a2[j++];
+    while (j < n2) {
+        merged[k++] = arr2[j++];
     }
 }
 
-int main()
-{
-    int n, a[50], a2[50], i, b, j;
+// Function to display an array
+void display_array(int arr[], int n) {
+    int i;
+    for (i = 0; i < n; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+}
 
-    printf("Enter how many elements you need to store to array 1:");
-    scanf("%d", &n);
+// ---------- MAIN ----------
+int main() {
+    int n1, n2, i;
 
-    if(n > 50)
-    {
-        printf("Maximum number of elements which can be inserted into array 1 is 50.\n");
-        return 1;
+    printf("Enter size of first array (max %d): ", MAX_SIZE);
+    scanf("%d", &n1);
+
+    if (n1 > MAX_SIZE) {
+        printf("Error: Array size cannot be greater than %d\n", MAX_SIZE);
+        return 0;  // stop the program
     }
 
-    printf("Enter the elements :\n");
-    for(i = 1; i <= n; i++)
-    {
-        scanf("%d", &a[i]);
+    int A[n1];
+    printf("Enter %d elements for first array:\n", n1);
+    for (i = 0; i < n1; i++) {
+        scanf("%d", &A[i]);
     }
 
-    // Sort array 1 separately
-    bubble_sort(a, n);
-    printf("\nSorted array 1:\n");
-    display_array(a, n);
+    printf("\nEnter size of second array (max %d): ", MAX_SIZE);
+    scanf("%d", &n2);
 
-    // Array 2 input
-    printf("Enter how many elements you need to store to array 2:");
-    scanf("%d", &b);
-
-    if(b > 50)
-    {
-        printf("Maximum number of elements which can be inserted into array 2 is 50.\n");
-        return 1;
+    if (n2 > MAX_SIZE) {
+        printf("Error: Array size cannot be greater than %d\n", MAX_SIZE);
+        return 0;
     }
 
-    printf("Enter the elements :\n");
-    for(i = 1; i <= b; i++)
-    {
-        scanf("%d", &a2[i]);
+    int B[n2];
+    printf("Enter %d elements for second array:\n", n2);
+    for (i = 0; i < n2; i++) {
+        scanf("%d", &B[i]);
     }
 
-    // Sort array 2 separately
-    bubble_sort(a2, b);
-    printf("\nSorted array 2:\n");
-    display_array(a2, b);
+    int merged[n1 + n2];
 
-    // Now merge the two sorted arrays
-    int merged[100];
-    merge_arrays(a, n, a2, b, merged);
+    // Sort arrays
+    sort_array(A, n1);
+    sort_array(B, n2);
 
-    printf("\nMerged sorted array:\n");
-    for(i = 1; i <= n + b; i++)
-    {
-        printf("%d\n", merged[i]);
-    }
+    printf("\nSorted Arrays:\n");
+    display_array(A, n1);
+    display_array(B, n2);
+
+    // Merge arrays
+    merge_arrays(A, n1, B, n2, merged);
+
+    printf("\nMerged Array:\n");
+    display_array(merged, n1 + n2);
 
     return 0;
 }
-
-
